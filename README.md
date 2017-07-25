@@ -23,7 +23,9 @@ Installation Instructions
 
 With composer:
 
-`composer require nathancox/versionedgridrows`
+```shell
+composer require nathancox/versionedgridrows
+```
 
 
 Usage Overview
@@ -39,7 +41,7 @@ VersionedGridRows:
 
 Options for the mode setting:
 
-*mode: 'component'*
+**mode: 'component'**
 
 Only add row styles to GridFields with the VersionGridRows component added to them.  This is done like any other component:
 
@@ -48,7 +50,7 @@ $gridFieldConfig->addComponent(new VersionedGridRows('Title'));
 ```
 The constructor argument ("Title") specifies the name of the column the "draft" or "modified" flags will be appended to.  Leave blank to not automatically append the flags.
 
-*mode: 'always'*
+**mode: 'always'**
 
 Styles will be added to all GridFields that managed versioned objects.  If you want to add flags  you need to do it manually with something like this:
 
@@ -66,7 +68,7 @@ public function VersionedTitle()
 
 ```
 
-*mode: 'config'*
+**mode: 'config'**
 
 Specify a list of classes that styles will be added to.
 
