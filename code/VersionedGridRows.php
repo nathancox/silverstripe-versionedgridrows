@@ -1,7 +1,25 @@
 <?php
 
-class VersionedGridRows extends GridFieldDataColumns
+class VersionedGridRows extends Object implements GridField_ColumnProvider
 {
+	/**
+	 * @var string
+	 * @config
+	 */
+	private static $mode = 'component';     // always, config, component
+
+	/**
+	 * @var boolean
+	 * @config
+	 */
+	private static $show_published = false;
+
+	/**
+	 * @var array
+	 * @config
+	 */
+	private static $classes = array();
+
 
 	public $fieldToFlag = false;
 
@@ -10,6 +28,14 @@ class VersionedGridRows extends GridFieldDataColumns
 		$this->fieldToFlag = $fieldToFlag;
 	}
 
+	public function getColumnsHandled($gridField)
+	{
+		$columns = array();
+		if ($this->fieldToFlag) {
+			$columns[] = $this->fieldToFlag;
+		}
+		return $columns;
+	}
 
 	public function getColumnContent($gridField, $record, $columnName)
 	{
@@ -18,54 +44,71 @@ class VersionedGridRows extends GridFieldDataColumns
 		}
 	}
 
-    /**
-     * Return the publication status of the record
-     * @param  DataObject $record The object this row represents.
-     * @return string         "draft", "modified" or "published"
-     */
-    public static function get_status($record)
-    {
-        $flag = false;
-        if ($record->hasExtension('Versioned')) {
-            $latestPublished = $record->latestPublished();
-
-            if ($latestPublished === null) {
-                $flag = 'draft';
-            } else {
-                $flag = ($latestPublished ? 'published' : 'modified');
-            }
-        }
-
-        return $flag;
-    }
-
-    /**
-     * Get the HTML for the "draft" or "modified" label
-     * @param  DataObject $record   The object this row represents.
-     * @return string
-     */
-    public static function get_status_html($record)
-    {
-        $output = '';
-        $flag = VersionedGridRows::get_status($record);
-        if ($flag && ($flag != 'published' || Config::inst()->get('VersionedGridRow', 'show_published') === true)) {
-            $output = ' <span class="state-marker '.$flag.'">'.ucfirst($flag).'</span>';
-        }
-
-        return $output;
-    }
 
 
-    /**
-     * Returns the given string with the appropriate marker appended, for use in GridField cells.
-     * @param  DataObject $record   The object this row represents.
-     * @param  string $text         The text content of the cell (eg $this->Title)
-     * @return DBField
-     */
-    public static function get_cell_content($record, $text)
-    {
-        return DBField::create_field('HTMLVarchar', $text . ' ' . self::get_status_html($record));
-    }
+	public function augmentColumns($gridField, &$columns)
+	{
+	}
+
+
+	public function getColumnAttributes($gridField, $record, $columnName)
+	{
+	}
+
+
+	public function getColumnMetaData($gridField, $columnName)
+	{
+	}
+
+
+	/**
+	 * Return the publication status of the record
+	 * @param  DataObject $record The object this row represents.
+	 * @return string         "draft", "modified" or "published"
+	 */
+	public static function get_status($record)
+	{
+		$status = false;
+		if ($record->hasExtension('Versioned')) {
+			$latestPublished = $record->latestPublished();
+
+			if ($latestPublished === null) {
+				$status = 'draft';
+			} else {
+				$status = ($latestPublished ? 'published' : 'modified');
+			}
+		}
+
+		return $status;
+	}
+
+	/**
+	 * Get the HTML for the "draft" or "modified" label
+	 * @param  DataObject $record   The object this row represents.
+	 * @return string
+	 */
+	public static function get_flag_html($record)
+	{
+		$output = '';
+		$flag = VersionedGridRows::get_status($record);
+		if ($flag && ($flag != 'published' || Config::inst()->get('VersionedGridRow', 'show_published') === true)) {
+			$output = ' <span class="state-marker '.$flag.'">'.ucfirst($flag).'</span>';
+		}
+
+		return $output;
+	}
+
+
+	/**
+	 * Returns the given string with the appropriate marker appended, for use in GridField cells.
+	 * @param  DataObject $record   The object this row represents.
+	 * @param  string $text         The text content of the cell (eg $this->Title)
+	 * @return DBField
+	 */
+	public static function get_column_content($record, $text = '')
+	{
+		return DBField::create_field('HTMLVarchar', $text . self::get_flag_html($record));
+	}
 
 
 }

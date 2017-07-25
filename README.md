@@ -1,4 +1,4 @@
-SilverStripe VersionedGridRow
+SilverStripe VersionedGridRows
 ===================================
 
 This module extends GridField to add some styles and labels for showing the published state of versioned objects.
@@ -33,7 +33,7 @@ Configuration via `config.yml`:
 
 ```yaml
 
-VersionedGridRow:
+VersionedGridRows:
   mode: 'component'			# can be "component", "config" or "always"
   show_published: false		# set to true to show a flag on published items as well
     
@@ -63,7 +63,7 @@ $summary_fields = array(
 
 public function VersionedTitle()
 {
-	return VersionedGridRows::get_cell_content($this, $this->Title);
+	return VersionedGridRows::get_column_content($this, $this->Title);
 }
 
 `
