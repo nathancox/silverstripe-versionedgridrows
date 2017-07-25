@@ -1,0 +1,11 @@
+---
+Name: versionedgridrow
+After:
+  - 'mysite/*'
+---
+GridField:
+  extensions:
+    - VersionedGridRow
+LeftAndMain:
+  extra_requirements_css:
+    - versionedgridrow/css/versionedgridrows.css

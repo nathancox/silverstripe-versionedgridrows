@@ -1,0 +1,25 @@
+.cms .ss-gridfield-table tr.draft td {
+    background-color: #fff7f2;
+    color: #F46B00;
+}
+
+.cms .ss-gridfield-item .state-marker {
+    margin-left: 5px;
+    padding: 1px 3px;
+    font-size: 80%;
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+
+.state-marker.modified,
+.state-marker.draft {
+    color: #7E7470;
+    background-color: #fff0bc;
+    border: 1px solid #C9B800;
+}
+
+.state-marker.published {
+  color: #0073C1;
+  background-color: #beebff;
+  border: 1px solid #99defd;
+}
