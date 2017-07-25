@@ -1,6 +1,6 @@
 <?php
 
-class VersionedGridColumn extends GridFieldDataColumns
+class VersionedGridRows extends GridFieldDataColumns
 {
 
 	public $fieldToFlag = false;
