@@ -1,6 +1,13 @@
 <?php
 
-class VersionedGridRows extends Object implements GridField_ColumnProvider
+namespace NathanCox\VersionedGridRows;
+
+use SilverStripe\Forms\GridField;
+use SilverStripe\ORM\FieldType;
+use SilverStripe\Versioned\Versioned;
+use SilverStripe\Core\Config;
+
+class VersionedGridRows implements GridField\GridField_ColumnProvider
 {
 	/**
 	 * @var string
@@ -69,7 +76,7 @@ class VersionedGridRows extends Object implements GridField_ColumnProvider
 	public static function get_status($record)
 	{
 		$status = false;
-		if ($record->hasExtension('Versioned')) {
+		if ($record->hasExtension(Versioned::class)) {
 			$latestPublished = $record->latestPublished();
 
 			if ($latestPublished === null) {
@@ -91,7 +98,7 @@ class VersionedGridRows extends Object implements GridField_ColumnProvider
 	{
 		$output = '';
 		$flag = VersionedGridRows::get_status($record);
-		if ($flag && ($flag != 'published' || Config::inst()->get('VersionedGridRow', 'show_published') === true)) {
+		if ($flag && ($flag != 'published' || Config\Config::inst()->get('VersionedGridRow', 'show_published') === true)) {
 			$output = ' <span class="state-marker '.$flag.'">'.ucfirst($flag).'</span>';
 		}
 
@@ -107,7 +114,7 @@ class VersionedGridRows extends Object implements GridField_ColumnProvider
 	 */
 	public static function get_column_content($record, $text = '')
 	{
-		return DBField::create_field('HTMLVarchar', $text . self::get_flag_html($record));
+		return FieldType\DBField::create_field('HTMLVarchar', $text . self::get_flag_html($record));
 	}
 
 

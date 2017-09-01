@@ -1,9 +1,9 @@
 ---
 Name: versionedgridrows
 ---
-GridField:
+SilverStripe\Forms\GridField\GridField:
   extensions:
-    - VersionedGridRowsExtension
-LeftAndMain:
+    - NathanCox\VersionedGridRows\VersionedGridRowsExtension
+SilverStripe\Admin\LeftAndMain:
   extra_requirements_css:
     - versionedgridrows/css/versionedgridrows.css

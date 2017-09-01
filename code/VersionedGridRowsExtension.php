@@ -1,5 +1,10 @@
 <?php
 
+namespace NathanCox\VersionedGridRows;
+
+use SilverStripe\Core\Extension;
+use SilverStripe\Core\Config\Config;
+
 class VersionedGridRowsExtension extends Extension
 {
     /**
@@ -19,10 +24,10 @@ class VersionedGridRowsExtension extends Extension
     		}
     	}
 
-        $flag = VersionedGridRows::get_status($record);
+      $flag = VersionedGridRows::get_status($record);
 
-        if ($flag) {
-            $classes[] = $flag;
-        }
+      if ($flag) {
+          $classes[] = $flag;
+      }
     }
 }
